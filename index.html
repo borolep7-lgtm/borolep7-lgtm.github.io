@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CircuitAura - Shaping the Future of Automation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                        dark: {
+                            100: '#1F2937',
+                            200: '#111827',
+                            300: '#0F172A',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0F172A;
+            color: #E5E7EB;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(16, 185, 129, 0.15) 100%);
+        }
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        .cart-sidebar {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+        .cart-sidebar.open {
+            transform: translateX(0);
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 40;
+        }
+        .overlay.active {
+            display: block;
+        }
+        .logo-text {
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .logo-subtext {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-dark-300 min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <nav class="bg-dark-200 py-4 px-6 sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <!-- Custom Logo -->
+                <div class="flex flex-col items-center justify-center mr-3">
+                    <div class="logo-text text-xl text-white">CIRCUITAURA</div>
+                    <div class="logo-subtext text-secondary">ELECTRONICS</div>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex space-x-8">
+                <a href="#home" class="hover:text-primary transition">Home</a>
+                <a href="#products" class="hover:text-primary transition">Products</a>
+                <a href="#about" class="hover:text-primary transition">About</a>
+                <a href="#learning" class="hover:text-primary transition">Learning</a>
+                <a href="#contact" class="hover:text-primary transition">Contact</a>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <a href="#" class="hover:text-primary transition">
+                    <i class="fas fa-search text-lg"></i>
+                </a>
+                <button id="cart-btn" class="hover:text-primary transition relative">
+                    <i class="fas fa-shopping-cart text-lg"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                </button>
+                <a href="#" class="hover:text-primary transition">
+                    <i class="fas fa-user text-lg"></i>
+                </a>
+                <button class="md:hidden" id="mobile-menu-btn">
+                    <i class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden bg-dark-200 mt-4 py-4 rounded-lg" id="mobile-menu">
+            <a href="#home" class="block py-2 px-4 hover:text-primary transition">Home</a>
+            <a href="#products" class="block py-2 px-4 hover:text-primary transition">Products</a>
+            <a href="#about" class="block py-2 px-4 hover:text-primary transition">About</a>
+            <a href="#learning" class="block py-2 px-4 hover:text-primary transition">Learning</a>
+            <a href="#contact" class="block py-2 px-4 hover:text-primary transition">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-gradient py-20 px-6">
+        <div class="container mx-auto flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">Shaping the Future of <span class="text-primary">Automation</span></h1>
+                <p class="text-xl mb-8 text-gray-300">Premium components and learning resources for IoT and automation enthusiasts.</p>
+                <div class="flex space-x-4">
+                    <a href="#products" class="bg-primary hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition">Explore Products</a>
+                    <a href="#learning" class="border border-primary text-primary hover:bg-primary hover:text-white px-6 py-3 rounded-lg font-medium transition">Start Learning</a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <div class="animate-float">
+                    <div class="bg-dark-200 rounded-2xl p-6 shadow-2xl">
+                        <div class="w-64 h-64 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
+                            <i class="fas fa-microchip text-white text-7xl opacity-80"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section id="products" class="py-16 px-6 bg-dark-200">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12">Featured <span class="text-primary">Products</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Product 1 -->
+                <div class="product-card bg-dark-100 rounded-xl overflow-hidden shadow-lg">
+                    <div class="h-48 bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+                        <i class="fas fa-robot text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Automation Starter Kit</h3>
+                        <p class="text-gray-400 mb-4">Everything you need to begin your home automation journey.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold text-primary">$89.99</span>
+                            <button class="add-to-cart bg-primary hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition" data-id="1" data-name="Automation Starter Kit" data-price="89.99">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card bg-dark-100 rounded-xl overflow-hidden shadow-lg">
+                    <div class="h-48 bg-gradient-to-r from-secondary to-primary flex items-center justify-center">
+                        <i class="fas fa-satellite-dish text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">IoT Sensor Hub</h3>
+                        <p class="text-gray-400 mb-4">Advanced sensor array for environmental monitoring and data collection.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold text-primary">$129.99</span>
+                            <button class="add-to-cart bg-primary hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition" data-id="2" data-name="IoT Sensor Hub" data-price="129.99">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="product-card bg-dark-100 rounded-xl overflow-hidden shadow-lg">
+                    <div class="h-48 bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+                        <i class="fas fa-bolt text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Smart Power Module</h3>
+                        <p class="text-gray-400 mb-4">Energy monitoring and control for your automation projects.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold text-primary">$59.99</span>
+                            <button class="add-to-cart bg-primary hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition" data-id="3" data-name="Smart Power Module" data-price="59.99">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#" class="inline-block border border-primary text-primary hover:bg-primary hover:text-white px-6 py-3 rounded-lg font-medium transition">View All Products</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 px-6">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h2 class="text-3xl font-bold mb-6">About <span class="text-primary">CircuitAura</span></h2>
+                    <p class="text-gray-300 mb-4">Founded in 2023, CircuitAura was born from a passion for making automation accessible to everyone. We believe in empowering creators, engineers, and hobbyists with high-quality components and comprehensive learning resources.</p>
+                    <p class="text-gray-300 mb-6">Our mission is to accelerate innovation in IoT and automation by providing premium products paired with educational content that helps bring ideas to life.</p>
+                    <a href="#" class="bg-primary hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition">Our Story</a>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="bg-dark-200 rounded-2xl p-6 shadow-xl">
+                        <div class="w-64 h-64 bg-gradient-to-br from-secondary to-primary rounded-lg flex items-center justify-center">
+                            <i class="fas fa-users text-white text-7xl opacity-80"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Hub -->
+    <section id="learning" class="py-16 px-6 bg-dark-200">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12">Learning <span class="text-primary">Resources</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-dark-100 rounded-xl overflow-hidden shadow-lg">
+                    <div class="h-48 bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+                        <i class="fas fa-video text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Video Tutorials</h3>
+                        <p class="text-gray-400 mb-4">Step-by-step guides for beginners and advanced users alike.</p>
+                        <a href="#" class="text-primary hover:underline font-medium">Start Learning <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+                
+                <div class="bg-dark-100 rounded-xl overflow-hidden shadow-lg">
+                    <div class="h-48 bg-gradient-to-r from-secondary to-primary flex items-center justify-center">
+                        <i class="fas fa-book text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Project Guides</h3>
+                        <p class="text-gray-400 mb-4">Comprehensive documentation for building real-world projects.</p>
+                        <a href="#" class="text-primary hover:underline font-medium">Explore Projects <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+                
+                <div class="bg-dark-100 rounded-xl overflow-hidden shadow-lg">
+                    <div class="h-48 bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+                        <i class="fas fa-comments text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Community Forum</h3>
+                        <p class="text-gray-400 mb-4">Connect with other automation enthusiasts and experts.</p>
+                        <a href="#" class="text-primary hover:underline font-medium">Join Discussion <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#" class="inline-block border border-primary text-primary hover:bg-primary hover:text-white px-6 py-3 rounded-lg font-medium transition">View All Resources</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 px-6">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12">Get in <span class="text-primary">Touch</span></h2>
+            
+            <div class="flex flex-col md:flex-row">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <form class="bg-dark-200 p-8 rounded-xl shadow-lg">
+                        <div class="mb-6">
+                            <label for="name" class="block text-gray-300 mb-2">Your Name</label>
+                            <input type="text" id="name" class="w-full bg-dark-100 border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary">
+                        </div>
+                        <div class="mb-6">
+                            <label for="email" class="block text-gray-300 mb-2">Email Address</label>
+                            <input type="email" id="email" class="w-full bg-dark-100 border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary">
+                        </div>
+                        <div class="mb-6">
+                            <label for="message" class="block text-gray-300 mb-2">Your Message</label>
+                            <textarea id="message" rows="4" class="w-full bg-dark-100 border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-primary hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition">Send Message</button>
+                    </form>
+                </div>
+                
+                <div class="md:w-1/2 md:pl-12">
+                    <div class="bg-dark-200 p-8 rounded-xl shadow-lg h-full">
+                        <h3 class="text-xl font-semibold mb-6">Contact Information</h3>
+                        
+                        <div class="flex items-start mb-6">
+                            <div class="bg-dark-100 p-3 rounded-lg mr-4">
+                                <i class="fas fa-phone text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-1">Phone</h4>
+                                <p class="text-gray-400">+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start mb-6">
+                            <div class="bg-dark-100 p-3 rounded-lg mr-4">
+                                <i class="fas fa-envelope text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-1">Email</h4>
+                                <p class="text-gray-400">support@circuitaura.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-dark-100 p-3 rounded-lg mr-4">
+                                <i class="fas fa-map-marker-alt text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-1">Address</h4>
+                                <p class="text-gray-400">123 Innovation Drive, Tech City, TC 12345</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <h4 class="font-medium mb-4">Follow Us</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="bg-dark-100 hover:bg-primary p-3 rounded-lg transition">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="#" class="bg-dark-100 hover:bg-primary p-3 rounded-lg transition">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="bg-dark-100 hover:bg-primary p-3 rounded-lg transition">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="overlay" id="cart-overlay"></div>
+    <div id="cart-sidebar" class="cart-sidebar fixed top-0 right-0 h-full w-full md:w-96 bg-dark-200 shadow-2xl z-50 overflow-y-auto">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold">Your Cart</h2>
+                <button id="close-cart" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="free-shipping-banner bg-blue-900 text-blue-100 p-3 rounded-lg mb-4 text-sm">
+                <i class="fas fa-truck mr-2"></i>
+                Add $200.00 to your order to qualify for free shipping in the U.S.
+            </div>
+            
+            <div class="flex justify-between text-sm mb-4">
+                <a href="#products" class="text-primary hover:underline">
+                    <i class="fas fa-arrow-left mr-1"></i> Return to Shopping
+                </a>
+                <a href="#" class="text-primary hover:underline">Prices</a>
+            </div>
+            
+            <table class="w-full mb-6">
+                <thead class="border-b border-gray-700">
+                    <tr class="text-left text-sm text-gray-400">
+                        <th class="pb-2">Item</th>
+                        <th class="pb-2">Price</th>
+                        <th class="pb-2">Qty</th>
+                        <th class="pb-2">Remove</th>
+                        <th class="pb-2 text-right">Total</th>
+                    </tr>
+                </thead>
+                <tbody id="cart-items">
+                    <!-- Cart items will be added here dynamically -->
+                    <tr id="empty-cart-message">
+                        <td colspan="5" class="text-gray-400 text-center py-4">Your cart is empty.</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold mb-2">Enter gift certificate or discount code</h3>
+                <div class="flex">
+                    <input type="text" class="flex-grow bg-dark-100 border border-gray-700 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                    <button class="bg-primary hover:bg-blue-600 text-white px-4 py-2 rounded-r-lg font-medium transition">Apply</button>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-4 mb-6">
+                <div class="flex justify-between mb-2">
+                    <span class="text-gray-400">Subtotal</span>
+                    <span id="cart-subtotal" class="font-semibold">$0.00</span>
+                </div>
+                <div class="flex justify-between mb-2 text-sm text-gray-400">
+                    <span>Shipping (Calculated in Checkout)</span>
+                    <span>$0.00</span>
+                </div>
+                <div class="flex justify-between mb-4 text-sm text-gray-400">
+                    <span>Tax (Calculated in Checkout)</span>
+                    <span>$0.00</span>
+                </div>
+                <div class="flex justify-between text-lg font-bold border-t border-gray-700 pt-2">
+                    <span>Total (USD)</span>
+                    <span id="cart-total">$0.00</span>
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <button class="w-full bg-dark-100 hover:bg-dark-300 border border-gray-700 text-white py-3 rounded-lg font-medium transition mb-2">
+                    <i class="far fa-heart mr-2"></i> Save as New Wishlist
+                </button>
+                <button id="empty-cart" class="w-full bg-dark-100 hover:bg-dark-300 border border-gray-700 text-white py-3 rounded-lg font-medium transition">
+                    <i class="fas fa-trash mr-2"></i> Empty Cart
+                </button>
+            </div>
+            
+            <button id="checkout-btn" class="w-full bg-primary hover:bg-blue-600 text-white py-3 rounded-lg font-medium transition mb-4">
+                Proceed to Checkout
+            </button>
+            
+            <div class="flex justify-between pt-4 border-t border-gray-700">
+                <a href="#products" class="text-primary hover:underline">
+                    <i class="fas fa-arrow-left mr-1"></i> Return to Shopping
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark-200 py-12 px-6 mt-auto">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex flex-col items-center justify-center mb-6">
+                        <div class="logo-text text-xl text-white">CIRCUITAURA</div>
+                        <div class="logo-subtext text-secondary">ELECTRONICS</div>
+                    </div>
+                    <p class="text-gray-400 mb-6">Shaping the Future of Automation with premium components and learning resources.</p>
+                    <p class="text-gray-400">© 2023 CircuitAura. All rights reserved.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-6 text-white">Shop</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">IoT Kits</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">PCBs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">Sensors</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">Actuators</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">All Products</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-6 text-white">Learn</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">Tutorials</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">Projects</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">Documentation</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">Forum</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-6 text-white">Company</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">Support</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 mb-4 md:mb-0">Accepting payments via UPI, Cards, PayPal, and Razorpay</p>
+                <div class="flex space-x-4">
+                    <div class="bg-dark-100 p-2 rounded-lg">
+                        <i class="fab fa-cc-visa text-gray-400 text-xl"></i>
+                    </div>
+                    <div class="bg-dark-100 p-2 rounded-lg">
+                        <i class="fab fa-cc-mastercard text-gray-400 text-xl"></i>
+                    </div>
+                    <div class="bg-dark-100 p-2 rounded-lg">
+                        <i class="fab fa-paypal text-gray-400 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Cart functionality
+        let cart = [];
+        const cartPanel = document.getElementById('cart-sidebar');
+        const cartOverlay = document.getElementById('cart-overlay');
+        const cartBtn = document.getElementById('cart-btn');
+        const closeCart = document.getElementById('close-cart');
+        const cartCount = document.getElementById('cart-count');
+        const cartItems = document.getElementById('cart-items');
+        const emptyCartMessage = document.getElementById('empty-cart-message');
+        const cartSubtotal = document.getElementById('cart-subtotal');
+        const cartTotal = document.getElementById('cart-total');
+        const checkoutBtn = document.getElementById('checkout-btn');
+        const emptyCartBtn = document.getElementById('empty-cart');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // Add to cart buttons
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const id = button.getAttribute('data-id');
+                const name = button.getAttribute('data-name');
+                const price = parseFloat(button.getAttribute('data-price'));
+                
+                // Check if product already in cart
+                const existingItem = cart.find(item => item.id === id);
+                
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    cart.push({
+                        id,
+                        name,
+                        price,
+                        quantity: 1
+                    });
+                }
+                
+                updateCart();
+                openCart();
+            });
+        });
+
+        // Toggle cart panel
+        cartBtn.addEventListener('click', openCart);
+
+        closeCart.addEventListener('click', closeCartPanel);
+
+        cartOverlay.addEventListener('click', closeCartPanel);
+
+        // Mobile menu toggle
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        function openCart() {
+            cartPanel.classList.add('open');
+            cartOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCartPanel() {
+            cartPanel.classList.remove('open');
+            cartOverlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Update cart UI
+        function updateCart() {
+            // Update cart count
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            
+            // Clear cart items
+            cartItems.innerHTML = '';
+            
+            if (cart.length === 0) {
+                emptyCartMessage.classList.remove('hidden');
+                checkoutBtn.disabled = true;
+                checkoutBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                emptyCartMessage.classList.add('hidden');
+                checkoutBtn.disabled = false;
+                checkoutBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                
+                // Add items to cart
+                cart.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.className = 'border-b border-gray-700';
+                    row.innerHTML = `
+                        <td class="py-4">
+                            <div class="flex items-center">
+                                <div class="h-12 w-12 bg-gradient-to-r from-primary to-secondary rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-microchip text-white"></i>
+                                </div>
+                                <span>${item.name}</span>
+                            </div>
+                        </td>
+                        <td class="py-4">$${item.price.toFixed(2)}</td>
+                        <td class="py-4">
+                            <div class="flex items-center">
+                                <button class="decrease-item text-gray-400 hover:text-white" data-id="${item.id}">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <span class="mx-2">${item.quantity}</span>
+                                <button class="increase-item text-gray-400 hover:text-white" data-id="${item.id}">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </td>
+                        <td class="py-4">
+                            <button class="remove-item text-red-500 hover:text-red-400" data-id="${item.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                        <td class="py-4 text-right">$${(item.price * item.quantity).toFixed(2)}</td>
+                    `;
+                    cartItems.appendChild(row);
+                });
+                
+                // Add event listeners to quantity buttons
+                document.querySelectorAll('.increase-item').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const id = button.getAttribute('data-id');
+                        const item = cart.find(item => item.id === id);
+                        item.quantity++;
+                        updateCart();
+                    });
+                });
+                
+                document.querySelectorAll('.decrease-item').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const id = button.getAttribute('data-id');
+                        const item = cart.find(item => item.id === id);
+                        item.quantity--;
+                        if (item.quantity === 0) {
+                            cart = cart.filter(item => item.id !== id);
+                        }
+                        updateCart();
+                    });
+                });
+                
+                document.querySelectorAll('.remove-item').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const id = button.getAttribute('data-id');
+                        cart = cart.filter(item => item.id !== id);
+                        updateCart();
+                    });
+                });
+            }
+            
+            // Update totals
+            const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+            cartTotal.textContent = `$${subtotal.toFixed(2)}`;
+            
+            // Update free shipping message
+            const freeShippingBanner = document.querySelector('.free-shipping-banner');
+            if (subtotal >= 200) {
+                freeShippingBanner.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Congratulations! You qualify for free shipping!';
+                freeShippingBanner.classList.remove('bg-blue-900', 'text-blue-100');
+                freeShippingBanner.classList.add('bg-green-900', 'text-green-100');
+            } else {
+                const needed = (200 - subtotal).toFixed(2);
+                freeShippingBanner.innerHTML = `<i class="fas fa-truck mr-2"></i> Add $${needed} to your order to qualify for free shipping in the U.S.`;
+                freeShippingBanner.classList.remove('bg-green-900', 'text-green-100');
+                freeShippingBanner.classList.add('bg-blue-900', 'text-blue-100');
+            }
+        }
+
+        // Empty cart button
+        emptyCartBtn.addEventListener('click', () => {
+            cart = [];
+            updateCart();
+        });
+
+        // Checkout button
+        checkoutBtn.addEventListener('click', () => {
+            if (cart.length > 0) {
+                alert('Proceeding to checkout! This would redirect to a payment page in a real application.');
+                // In a real app, you would redirect to a checkout page
+            }
+        });
+
+        // Initialize cart
+        updateCart();
+    </script>
+</body>
+</html>
